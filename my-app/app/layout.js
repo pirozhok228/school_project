@@ -1,5 +1,6 @@
 import "./globals.css";
-
+import { Header } from "./components/Header/Header";
+import { Footer } from "./components/Footer/Footer";
 
 export const metadata = {
   title: "Медиацентр",
@@ -9,7 +10,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ru">
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

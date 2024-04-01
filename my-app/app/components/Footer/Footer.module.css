@@ -1,0 +1,22 @@
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 30px 100px 30px 100px;
+    background-color: rgb(12, 10, 22);
+    color: white;
+    font-size: 15px;
+    font-family: 'Comfortaa';
+}
+
+.footer-title {
+    color: white;
+    font-size: 25px;
+    font-family: 'Comfortaa';
+}
+
+.support, .pages {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
