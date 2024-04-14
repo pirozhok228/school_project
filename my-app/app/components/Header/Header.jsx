@@ -14,7 +14,8 @@ export const Header = () => {
                 <nav>
                     <ul className={Styles['ul-links']}>
                         <Link className={Styles['link']} href="http://127.0.0.1:3000/news">Новости</Link>
-                        <Link className={Styles['link']} href="http://127.0.0.1:3000/declorations">Объявления</Link>
+                        <a className={Styles['link']}>VK</a>
+                        <a className={Styles['link']}>TG</a>
                     </ul>
                 </nav>
             </div>
