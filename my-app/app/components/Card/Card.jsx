@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Styles from './Card.module.css'
 
 export const Card = (props) => {
@@ -10,15 +10,33 @@ export const Card = (props) => {
     const [newTitle, setNewTitle] = useState(props.title);
     const [newText, setNewText] = useState(props.text);
 
-    useEffect(() => {
-        if (state === 'delete') {
-            console.log('элемент удален')
+
+    function deletePost() {
+        setState('delete')
+        fetch(`http://127.0.0.1:5000/delete_post/${props.id}`)
+    }
+
+    function editPost() {
+        setTitle(newTitle);
+        setText(newText);
+        setState(null)
+        const newPost = {
+            title: newTitle,
+            text: newText,
         }
-    }, [state])
+        const newPostJSON = JSON.stringify(newPost)
+        fetch(`http://127.0.0.1:5000/edit_post/${props.id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: newPostJSON
+        })
+    }
 
     return (
         <>
-            {(state !== 'delete' && state !== 'set') &&
+            {(state !== 'delete' && state !== 'edit') &&
                 (<div className={Styles['card']} >
                     <h3 className={Styles['title']}>{title}</h3>
                     <p className={Styles['text']}>{text}</p>
@@ -26,21 +44,24 @@ export const Card = (props) => {
                     {props.admin &&
                         (
                             <div className={Styles['button-container']}>
-                                <button className={Styles['button-del']} onClick={() => setState('delete')}>Удалить</button>
-                                <button className={Styles['button-set']} onClick={() => setState('set')}>Редактировать</button>
+                                <button className={Styles['button-del']} onClick={deletePost}>Удалить</button>
+                                <button className={Styles['button-set']} onClick={() => setState('edit')}>Редактировать</button>
                             </div>
                         )}
                 </div >
                 )
             }
             {
-                state === 'set' && (
+                state === 'edit' && (
                     <div className={Styles['card']} >
-                        <input className={Styles['title']} type="text" value={newTitle} onChange={(e) => {setNewTitle(e.target.value)}} />
-                        <textarea className={Styles['text']} value={newText} rows={20} onChange={(e) => {setNewText(e.target.value)}}/>
+                        <input className={Styles['title']} type="text" value={newTitle} onChange={(e) => { setNewTitle(e.target.value) }} />
+                        <textarea className={Styles['text']} value={newText} rows={20} onChange={(e) => { setNewText(e.target.value) }} />
                         <p className={Styles['time']}>{props.date} {props.time}</p>
-                        <button onClick={() => {setTitle(newTitle); setText(newText); setState(null)}}>Сохранить</button>
-                        <button onClick={() => setState(null) }>Отмена</button>
+                        <div className={Styles['button-container']}>
+                            <button className={Styles['button']} onClick={editPost}>Сохранить</button>
+                            <button className={Styles['button']} onClick={() => setState(null)}>Отмена</button>
+                        </div>
+
                     </div>
                 )
             }
