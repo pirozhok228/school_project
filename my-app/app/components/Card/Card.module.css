@@ -23,3 +23,39 @@
     color:rgb(119, 119, 119);
     font-size: 15px;
 }
+
+.button-container {
+    display: flex;
+    align-self: center;
+    column-gap: 30px;
+}
+
+.button-del {
+    width: 150px;
+    padding: 10px;
+    font-size: 15px;
+    font-family: 'Comfortaa';
+    color: white;
+    background-color: rgb(170, 0, 0);
+    border: 1px solid rgb(170, 0, 0);
+    border-radius: 5px;
+}
+
+.button-set {
+    width: 150px;
+    padding: 10px;
+    font-size: 15px;
+    font-family: 'Comfortaa';
+    color: white;
+    background-color: rgb(0, 97, 0);
+    border: 1px solid rgb(0, 97, 0);
+    border-radius: 5px;
+}
+
+.button-del:hover {
+    background-color: rgb(125, 0, 0);
+}
+
+.button-set:hover {
+    background-color: rgb(0, 70, 0);
+}

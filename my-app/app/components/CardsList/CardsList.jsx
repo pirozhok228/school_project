@@ -7,7 +7,7 @@ export const CardsList = (props) => {
             {props.data.map((item, index) => {
                 return (
                     <li key={index}>
-                        <Card title={item.title} text={item.text} date={item.date} time={item.time}/>
+                        <Card id={index} title={item.title} text={item.text} date={item.date} time={item.time} admin={props.admin} />
                     </li>
                 )
             })}
