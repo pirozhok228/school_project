@@ -16,7 +16,7 @@ export default function AdminPage() {
         const auth = localStorage.getItem('auth');
 
         if (!auth) {
-            router.push('login')
+            router.push('/login')
         }
 
         async function fetchData() {

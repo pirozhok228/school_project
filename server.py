@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, url_for, redirect, make_response, session, abort, g
+from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import cross_origin, CORS
 
@@ -20,31 +20,6 @@ class Admin(db.Model):
     login = db.Column(db.String(100))
     password = db.Column(db.String(100))
 
-'''
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        if session['_user_id'] == '1':
-            return redirect(url_for('superadmin'), 301)
-        return redirect(url_for('admin'), 301)
-    if request.method == 'POST':
-        admin = Admin.query.filter_by(name=request.form['login']).all()[0]
-        if admin is None or admin.password != request.form['password']:
-            return redirect(url_for('login'), 301)
-        login_user(admin)
-        print(session['_user_id'])
-        if session['_user_id'] == '1':
-            return redirect(url_for('superadmin'), 301)
-        return redirect('/admin/', 301)
-    return render_template('login.html')
-    '''
-
-'''
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
-'''
 
 @cross_origin()
 @app.route('/get_posts', methods=['GET'])
@@ -95,21 +70,6 @@ def edit_post(id):
     return make_response('', 200)
 
 
-@app.route('/get_superusers')
-@cross_origin()
-def get_superusers():
-    list_admins = Admin.query.all()
-    admins_json = []
-    for i in list_admins:
-        admins_json.append(
-            {
-                'id': i.id,
-                'login': i.login,
-            }
-        )
-    return jsonify(admins_json)
-
-
 @app.route('/auth', methods=['POST'])
 @cross_origin()
 def authorize():
@@ -122,6 +82,7 @@ def authorize():
         return jsonify(True)
     else:
         return jsonify(False)
+
 
 if __name__ == "__main__":
     app.run()
