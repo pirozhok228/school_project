@@ -15,38 +15,10 @@ class Posts(db.Model):
     time = db.Column(db.String(20))
 
 
-
-@app.route('/')
-@app.route('/index')
-def index():
-    g.database = db
-    return render_template('index.html')
-
-
-@app.route('/news')
-def news():
-    return render_template('news.html')
-
-
-@app.route('/declorations')
-def declorations():
-    return render_template('declorations.html')
-
-
-@app.route('/about_us')
-def about_us():
-    return render_template('about_us.html')
-
-@app.route('/')
-def main():
-    return render_template('admin.html')
-
-
-@app.route('/superadmin')
-def superadmin():
-    if session['_user_id'] == '1':
-        return render_template('superadmin.html')
-    abort(401)
+class Admin(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(100))
+    password = db.Column(db.String(100))
 
 '''
 @app.route('/login', methods=['GET', 'POST'])
@@ -123,6 +95,33 @@ def edit_post(id):
     return make_response('', 200)
 
 
+@app.route('/get_superusers')
+@cross_origin()
+def get_superusers():
+    list_admins = Admin.query.all()
+    admins_json = []
+    for i in list_admins:
+        admins_json.append(
+            {
+                'id': i.id,
+                'login': i.login,
+            }
+        )
+    return jsonify(admins_json)
+
+
+@app.route('/auth', methods=['POST'])
+@cross_origin()
+def authorize():
+    response = request.json
+    try:
+        admin = Admin.query.filter_by(login=response['login']).all()[0]
+    except IndexError:
+        return jsonify(False)
+    if response['password'] == admin.password:
+        return jsonify(True)
+    else:
+        return jsonify(False)
 
 if __name__ == "__main__":
     app.run()
