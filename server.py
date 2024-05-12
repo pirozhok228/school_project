@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import cross_origin, CORS
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///D:\files\школьный проект\data\news.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = fr'sqlite:///{os.path.dirname(__file__)}/data.sqlite'
 db = SQLAlchemy(app)
 cors = CORS(app)
 
